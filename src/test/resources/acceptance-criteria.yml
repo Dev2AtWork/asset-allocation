@@ -1,0 +1,225 @@
+- depositPlan:
+    onetime:
+      highRisk: 10000
+      retirement: 500
+    monthly:
+      highRisk: 0
+      retirement: 100
+    riskAppetite: 0.2
+  description: Net Sum less, defensive
+  deposits:
+    - 9000
+    - 500
+  fundAllocation:
+    highRisk: 8900
+    retirement: 600
+- depositPlan:
+    onetime:
+      highRisk: 10000
+      retirement: 500
+    monthly:
+      highRisk: 0
+      retirement: 100
+    riskAppetite: 0.5
+  description: Net Sum less, balanced
+  deposits:
+    - 9000
+    - 500
+  fundAllocation:
+    highRisk: 9047.62
+    retirement: 452.38
+- depositPlan:
+    onetime:
+      highRisk: 10000
+      retirement: 500
+    monthly:
+      highRisk: 0
+      retirement: 100
+    riskAppetite: 0.8
+  description: Net Sum less, aggresive
+  deposits:
+    - 9000
+    - 500
+  fundAllocation:
+    highRisk: 9500
+    retirement: 0
+- depositPlan:
+    onetime:
+      highRisk: 10000
+      retirement: 500
+    monthly:
+      highRisk: 0
+      retirement: 100
+    riskAppetite: 0.2
+  description: Net Sum less than any deposit plan, defensive
+  deposits:
+    - 200
+    - 200
+  fundAllocation:
+    highRisk: 0
+    retirement: 400
+- depositPlan:
+    onetime:
+      highRisk: 10000
+      retirement: 500
+    monthly:
+      highRisk: 0
+      retirement: 100
+    riskAppetite: 0.5
+  description: Net Sum less than any deposit plan, balanced
+  deposits:
+    - 200
+    - 200
+  fundAllocation:
+    highRisk: 200
+    retirement: 200
+- depositPlan:
+    onetime:
+      highRisk: 10000
+      retirement: 500
+    monthly:
+      highRisk: 0
+      retirement: 100
+    riskAppetite: 0.8
+  description: Net Sum less than any deposit plan, aggresive
+  deposits:
+    - 200
+    - 200
+  fundAllocation:
+    highRisk: 400
+    retirement: 0
+- depositPlan:
+    onetime:
+      highRisk: 10000
+      retirement: 500
+    monthly:
+      highRisk: 0
+      retirement: 100
+    riskAppetite: 0.2
+  description: Net Sum more, defensive
+  deposits:
+    - 10000
+    - 1000
+  fundAllocation:
+    highRisk: 10000
+    retirement: 1000
+- depositPlan:
+    onetime:
+      highRisk: 10000
+      retirement: 500
+    monthly:
+      highRisk: 0
+      retirement: 100
+    riskAppetite: 0.5
+  description: Net Sum more, balanced
+  deposits:
+    - 10000
+    - 1000
+  fundAllocation:
+    highRisk: 10200
+    retirement: 800
+- depositPlan:
+    onetime:
+      highRisk: 10000
+      retirement: 500
+    monthly:
+      highRisk: 0
+      retirement: 100
+    riskAppetite: 0.8
+  description: Net Sum more, aggresive
+  deposits:
+    - 10000
+    - 1000
+  fundAllocation:
+    highRisk: 10400
+    retirement: 600
+- depositPlan:
+    onetime:
+      highRisk: 10000
+      retirement: 500
+    monthly:
+      highRisk: 0
+      retirement: 100
+    riskAppetite: 0.2
+  description: Happy Path, Defensive
+  deposits:
+    - 10500
+    - 100
+  fundAllocation:
+    highRisk: 10000
+    retirement: 600
+- depositPlan:
+    onetime:
+      highRisk: 10000
+      retirement: 500
+    monthly:
+      highRisk: 0
+      retirement: 100
+    riskAppetite: 0.5
+  description: Happy Path, Balanced
+  deposits:
+    - 10500
+    - 100
+  fundAllocation:
+    highRisk: 10000
+    retirement: 600
+- depositPlan:
+    onetime:
+      highRisk: 10000
+      retirement: 500
+    monthly:
+      highRisk: 0
+      retirement: 100
+    riskAppetite: 0.8
+  description: Happy Path, Aggresive
+  deposits:
+    - 10500
+    - 100
+  fundAllocation:
+    highRisk: 10000
+    retirement: 600
+- depositPlan:
+    onetime:
+      highRisk: 10000
+      retirement: 500
+    monthly:
+      highRisk: 0
+      retirement: 100
+    riskAppetite: 0.2
+  description: Monthly deposits less than monthly allocation, Defensive
+  deposits:
+    - 10500
+    - 90
+  fundAllocation:
+    highRisk: 10000
+    retirement: 590
+- depositPlan:
+    onetime:
+      highRisk: 10000
+      retirement: 500
+    monthly:
+      highRisk: 0
+      retirement: 100
+    riskAppetite: 0.5
+  description: Monthly deposits less than monthly allocation, Balanced
+  deposits:
+    - 10500
+    - 90
+  fundAllocation:
+    highRisk: 10000
+    retirement: 590
+- depositPlan:
+    onetime:
+      highRisk: 10000
+      retirement: 500
+    monthly:
+      highRisk: 0
+      retirement: 100
+    riskAppetite: 0.8
+  description: Monthly deposits less than monthly allocation, Aggresive
+  deposits:
+    - 10500
+    - 90
+  fundAllocation:
+    highRisk: 10000
+    retirement: 590
