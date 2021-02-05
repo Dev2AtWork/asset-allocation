@@ -15,8 +15,10 @@ import lombok.Setter;
 @AllArgsConstructor
 public class FundAllocation {
     @JsonProperty
-    private BigDecimal highRisk;
+    @Builder.Default
+    private BigDecimal highRisk = BigDecimal.ZERO;
 
     @JsonProperty
-    private BigDecimal retirement;
+    @Builder.Default
+    private BigDecimal retirement = BigDecimal.ZERO;
 }

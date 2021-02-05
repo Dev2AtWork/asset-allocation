@@ -15,23 +15,10 @@ import lombok.Setter;
 public class DepositPlan {
 
     @JsonProperty
-    private String         uuid;
-    @JsonProperty
     private FundAllocation onetime;
     @JsonProperty
     private FundAllocation monthly;
     @JsonProperty
-    private double         riskAppetite;
+    private Double         riskAppetite;
 
-    public FundAllocation portfolioSummary() {
-        return FundAllocation
-            .builder()
-            .highRisk(onetime
-                .getHighRisk()
-                .add(monthly.getHighRisk()))
-            .retirement(onetime
-                .getRetirement()
-                .add(monthly.getRetirement()))
-            .build();
-    }
 }
