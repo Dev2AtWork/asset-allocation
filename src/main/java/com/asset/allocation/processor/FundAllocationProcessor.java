@@ -1,6 +1,7 @@
 package com.asset.allocation.processor;
 
 import static com.asset.allocation.helper.ExcessFundAllocation.allocateExtraFundByRiskAppetite;
+import static com.asset.allocation.helper.ExcessFundAllocation.allocateMonthlyFundByRiskAppetite;
 import static com.asset.allocation.helper.ExcessFundAllocation.allocateRemainingOneTimeByRiskAppetite;
 import static com.asset.allocation.helper.FundDistribution.aggressiveFundAllocation;
 import static com.asset.allocation.helper.FundDistribution.balancedFundAllocation;
@@ -29,15 +30,11 @@ public interface FundAllocationProcessor {
 
             }
         }
-        if (oneTimeCovered.apply(portfolio) && deposit.compareTo(portfolio
-            .getDepositPlan()
-            .getMonthly()
-            .getRetirement()) <= 0) {
-            return FundAllocation
-                .builder()
-                .highRisk(BigDecimal.ZERO)
-                .retirement(deposit)
-                .build();
+        if (oneTimeCovered.apply(portfolio)) {
+            if (depositGtMonthlyAllocation.apply(deposit, portfolio)) {
+                return allocateExtraFundByRiskAppetite.apply(deposit, portfolio, riskAppetiteEnum);
+            }
+            return allocateMonthlyFundByRiskAppetite.apply(deposit, portfolio, riskAppetiteEnum);
         }
         if (remainingOneTimeAndMonthlyEqualsDeposit.apply(deposit, portfolio)) {
             return FundAllocation

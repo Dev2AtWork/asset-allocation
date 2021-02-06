@@ -18,7 +18,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 public class FundsAllocationTest {
 
     @ParameterizedTest(name = "{0}")
-//    @MethodSource("smallerDataSetProvider")
     @MethodSource("dataProvider")
     public void allocateFundTest(String description, TestData testData) {
 
@@ -61,16 +60,6 @@ public class FundsAllocationTest {
             .requireNonNull(FundsAllocationTest.class
                 .getClassLoader()
                 .getResource("acceptance-criteria.yml"))
-            .getFile()), TestData.class)
-            .stream()
-            .map(testData -> Arguments.of(testData.getDescription(), testData));
-    }
-
-    private static Stream<Arguments> smallerDataSetProvider() {
-        return getObjectListFromYml(new File(Objects
-            .requireNonNull(FundsAllocationTest.class
-                .getClassLoader()
-                .getResource("test.yml"))
             .getFile()), TestData.class)
             .stream()
             .map(testData -> Arguments.of(testData.getDescription(), testData));

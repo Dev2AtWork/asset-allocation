@@ -145,4 +145,62 @@ public interface ExcessFundAllocation {
 
         return fundAllocation;
     };
+
+    TriFunction<BigDecimal, Portfolio, RiskAppetiteEnum, FundAllocation> allocateMonthlyFundByRiskAppetite = (deposit, portfolio, riskAppetite) -> {
+        final BigDecimal monthlyHighRiskAllocation = monthlyAllocationHighRisk.apply(portfolio);
+        final BigDecimal monthlyRetirementAllocation = monthlyAllocationRetirement.apply(portfolio);
+        switch (riskAppetite) {
+            case DEFENSIVE:
+                if (deposit.compareTo(monthlyRetirementAllocation) <= 0)
+                    return FundAllocation
+                        .builder()
+                        .retirement(deposit)
+                        .build();
+                if (deposit
+                    .subtract(monthlyHighRiskAllocation.add(monthlyRetirementAllocation))
+                    .compareTo(BigDecimal.ZERO) > 0)
+                    return FundAllocation
+                        .builder()
+                        .retirement(deposit.subtract(monthlyHighRiskAllocation))
+                        .highRisk(monthlyHighRiskAllocation)
+                        .build();
+                return FundAllocation
+                    .builder()
+                    .retirement(monthlyRetirementAllocation)
+                    .highRisk(deposit.subtract(monthlyRetirementAllocation))
+                    .build();
+
+            case AGGRESSIVE:
+                if (deposit.compareTo(monthlyHighRiskAllocation) <= 0)
+                    return FundAllocation
+                        .builder()
+                        .highRisk(deposit)
+                        .build();
+                if (deposit
+                    .subtract(monthlyRetirementAllocation.add(monthlyHighRiskAllocation))
+                    .compareTo(BigDecimal.ZERO) > 0)
+                    return FundAllocation
+                        .builder()
+                        .retirement(monthlyRetirementAllocation)
+                        .highRisk(deposit.subtract(monthlyRetirementAllocation))
+                        .build();
+                return FundAllocation
+                    .builder()
+                    .retirement(deposit.subtract(monthlyHighRiskAllocation))
+                    .highRisk(monthlyHighRiskAllocation)
+                    .build();
+
+            case BALANCED:
+                final BigDecimal halfAmount = deposit.divide(BigDecimal.valueOf(2), 2, RoundingMode.HALF_UP);
+                return FundAllocation
+                    .builder()
+                    .highRisk(halfAmount.compareTo(monthlyHighRiskAllocation) > 0 ? monthlyHighRiskAllocation : halfAmount)
+                    .retirement(
+                        halfAmount.compareTo(monthlyHighRiskAllocation) > 0 ? deposit.subtract(monthlyHighRiskAllocation) : halfAmount)
+                    .build();
+            default:
+                throw new IllegalStateException("unknown risk category");
+        }
+
+    };
 }
