@@ -39,3 +39,7 @@ All use cases are written under `/test/resources/acceptance-criteria.yml`.
     retirement: 600
 ```
 The above is an example of a scenario, where user chooses a deposit plan with specified High Risk & Retirement plan fund allocation. `deposits` is a list of monthly deposits of the customer. `fundAllocation` is the final allocation expected after all the deposits.
+
+### Running Tests
+    mvn clean test
+
