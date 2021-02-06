@@ -51,8 +51,24 @@ public interface ExcessFundAllocationHelper {
                             .retirement(remainingRetirement.add(fundToDistribute.subtract(divide)))
                             .build();
                     }
+                    final BigDecimal highRiskAllocation = portfolio
+                        .getDepositPlan()
+                        .getOnetime()
+                        .getHighRisk()
+                        .divide(portfolio
+                            .getDepositPlan()
+                            .getOnetime()
+                            .getHighRisk()
+                            .add(portfolio
+                                .getDepositPlan()
+                                .getOnetime()
+                                .getRetirement()), 6, RoundingMode.HALF_UP)
+                        .multiply(excessFund)
+                        .setScale(2, RoundingMode.HALF_UP);
                     return FundAllocation
                         .builder()
+                        .highRisk(highRiskAllocation)
+                        .retirement(excessFund.subtract(highRiskAllocation))
                         .build();
                 } else if (!oneTimeHighRiskAllocationCovered.apply(portfolio)) {
                     BigDecimal remainingHighRiskFund = PortfolioProcessHelper.remainingHighRisk.apply(portfolio);

@@ -1,8 +1,5 @@
 package com.asset.allocation.helper;
 
-import static com.asset.allocation.helper.PortfolioProcessHelper.monthlyAllocationHighRisk;
-import static com.asset.allocation.helper.PortfolioProcessHelper.monthlyAllocationRetirement;
-
 import com.asset.allocation.domain.FundAllocation;
 import com.asset.allocation.domain.Portfolio;
 import com.asset.allocation.domain.RiskAppetiteEnum;
@@ -13,17 +10,30 @@ import java.util.function.Function;
 
 public interface FundAllocationHelper {
     BiFunction<Portfolio, BigDecimal, FundAllocation> defensiveFundAllocation = (portfolio, deposit) ->
-        FundAllocation
+    {
+        if (deposit.compareTo(portfolio
+            .getDepositPlan()
+            .getOnetime()
+            .getRetirement()) >= 0) {
+            return FundAllocation
+                .builder()
+                .highRisk(deposit.subtract(portfolio
+                    .getDepositPlan()
+                    .getOnetime()
+                    .getRetirement()))
+                .retirement(portfolio
+                    .getDepositPlan()
+                    .getOnetime()
+                    .getRetirement())
+                .build();
+        }
+
+        return FundAllocation
             .builder()
-            .highRisk(deposit.subtract(portfolio
-                .getDepositPlan()
-                .getOnetime()
-                .getRetirement()))
-            .retirement(portfolio
-                .getDepositPlan()
-                .getOnetime()
-                .getRetirement())
+            .retirement(deposit)
             .build();
+
+    };
 
     BiFunction<Portfolio, BigDecimal, FundAllocation> balancedFundAllocation = (portfolio, deposit) -> {
         final BigDecimal highRiskAllocation = portfolio
@@ -48,17 +58,28 @@ public interface FundAllocationHelper {
     };
 
     BiFunction<Portfolio, BigDecimal, FundAllocation> aggressiveFundAllocation = (portfolio, deposit) ->
-        FundAllocation
+    {
+        if (deposit.compareTo(portfolio
+            .getDepositPlan()
+            .getOnetime()
+            .getHighRisk()) >= 0) {
+            return FundAllocation
+                .builder()
+                .retirement(deposit.subtract(portfolio
+                    .getDepositPlan()
+                    .getOnetime()
+                    .getHighRisk()))
+                .highRisk(portfolio
+                    .getDepositPlan()
+                    .getOnetime()
+                    .getHighRisk())
+                .build();
+        }
+        return FundAllocation
             .builder()
-            .retirement(deposit.subtract(portfolio
-                .getDepositPlan()
-                .getOnetime()
-                .getHighRisk()))
-            .highRisk(portfolio
-                .getDepositPlan()
-                .getOnetime()
-                .getHighRisk())
+            .highRisk(deposit)
             .build();
+    };
 
     BiFunction<BigDecimal, RiskAppetiteEnum, FundAllocation> allocateExcessFundByRisk = (remainingFund, riskAppetite) -> {
         switch (riskAppetite) {
@@ -106,6 +127,5 @@ public interface FundAllocationHelper {
     Function<Portfolio, Boolean> oneTimeAllocationCovered = (portfolio ->
         oneTimeHighRiskAllocationCovered.apply(portfolio) && oneTimeRetirementAllocationCovered.apply(portfolio)
     );
-
 
 }

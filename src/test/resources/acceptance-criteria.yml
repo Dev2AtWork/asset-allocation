@@ -11,8 +11,8 @@
     - 9000
     - 500
   fundAllocation:
-    highRisk: 8900
-    retirement: 600
+    highRisk: 9000
+    retirement: 500
 - depositPlan:
     onetime:
       highRisk: 10000
@@ -71,8 +71,8 @@
     - 200
     - 200
   fundAllocation:
-    highRisk: 200
-    retirement: 200
+    highRisk: 380.96
+    retirement: 19.04
 - depositPlan:
     onetime:
       highRisk: 10000

@@ -4,6 +4,7 @@ import static com.asset.allocation.domain.RiskAppetiteEnum.AGGRESSIVE;
 import static com.asset.allocation.domain.RiskAppetiteEnum.BALANCED;
 import static com.asset.allocation.domain.RiskAppetiteEnum.DEFENSIVE;
 import static com.asset.allocation.helper.ExcessFundAllocationHelper.allocateExtraFundByRiskAppetite;
+import static com.asset.allocation.helper.ExcessFundAllocationHelper.allocateRemainingOneTimeByRiskAppetite;
 import static com.asset.allocation.helper.FundAllocationHelper.aggressiveFundAllocation;
 import static com.asset.allocation.helper.FundAllocationHelper.balancedFundAllocation;
 import static com.asset.allocation.helper.FundAllocationHelper.defensiveFundAllocation;
@@ -75,6 +76,7 @@ public interface FundAllocationProcessor {
             } else if (remainingOneTimeAndMonthlyLtDeposit.apply(deposit, portfolio)) {
                 return allocateExtraFundByRiskAppetite.apply(deposit, portfolio, riskAppetiteEnum);
             }
+            return allocateRemainingOneTimeByRiskAppetite.apply(deposit, portfolio, riskAppetiteEnum);
         }
 
         return FundAllocation
