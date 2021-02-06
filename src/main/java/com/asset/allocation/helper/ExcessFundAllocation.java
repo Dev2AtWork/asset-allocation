@@ -1,19 +1,20 @@
 package com.asset.allocation.helper;
 
-import static com.asset.allocation.helper.FundAllocationHelper.allocateExcessFundByRisk;
-import static com.asset.allocation.helper.FundAllocationHelper.oneTimeAllocationCovered;
-import static com.asset.allocation.helper.FundAllocationHelper.oneTimeHighRiskAllocationCovered;
-import static com.asset.allocation.helper.FundAllocationHelper.oneTimeRetirementAllocationCovered;
-import static com.asset.allocation.helper.PortfolioProcessHelper.monthlyAllocationHighRisk;
-import static com.asset.allocation.helper.PortfolioProcessHelper.monthlyAllocationRetirement;
+import static com.asset.allocation.helper.FundDistribution.allocateExcessFundByRisk;
+import static com.asset.allocation.helper.FundDistribution.oneTimeAllocationCovered;
+import static com.asset.allocation.helper.FundDistribution.oneTimeHighRiskAllocationCovered;
+import static com.asset.allocation.helper.FundDistribution.oneTimeRetirementAllocationCovered;
+import static com.asset.allocation.helper.FundDistributionUtil.monthlyAllocationHighRisk;
+import static com.asset.allocation.helper.FundDistributionUtil.monthlyAllocationRetirement;
 
 import com.asset.allocation.domain.FundAllocation;
 import com.asset.allocation.domain.Portfolio;
 import com.asset.allocation.domain.RiskAppetiteEnum;
+import com.asset.util.TriFunction;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-public interface ExcessFundAllocationHelper {
+public interface ExcessFundAllocation {
     TriFunction<BigDecimal, Portfolio, RiskAppetiteEnum, FundAllocation> allocateRemainingOneTimeByRiskAppetite = (excessFund, portfolio, riskAppetite) -> {
         switch (riskAppetite) {
             case DEFENSIVE:
@@ -23,7 +24,7 @@ public interface ExcessFundAllocationHelper {
                         .retirement(excessFund)
                         .build();
                 }
-                BigDecimal remainingHighRisk = PortfolioProcessHelper.remainingHighRisk.apply(portfolio);
+                BigDecimal remainingHighRisk = FundDistributionUtil.remainingHighRisk.apply(portfolio);
                 if (remainingHighRisk.compareTo(excessFund) >= 0) {
                     return FundAllocation
                         .builder()
@@ -38,8 +39,8 @@ public interface ExcessFundAllocationHelper {
 
             case BALANCED:
                 if (!oneTimeRetirementAllocationCovered.apply(portfolio) && !oneTimeHighRiskAllocationCovered.apply(portfolio)) {
-                    BigDecimal remainingRetirement = PortfolioProcessHelper.remainingRetirement.apply(portfolio);
-                    BigDecimal remainingHighRiskFund = PortfolioProcessHelper.remainingHighRisk.apply(portfolio);
+                    BigDecimal remainingRetirement = FundDistributionUtil.remainingRetirement.apply(portfolio);
+                    BigDecimal remainingHighRiskFund = FundDistributionUtil.remainingHighRisk.apply(portfolio);
                     if (excessFund.compareTo(remainingHighRiskFund
                         .add(remainingRetirement)) >= 0) {
                         BigDecimal fundToDistribute = excessFund.subtract(remainingHighRiskFund
@@ -71,7 +72,7 @@ public interface ExcessFundAllocationHelper {
                         .retirement(excessFund.subtract(highRiskAllocation))
                         .build();
                 } else if (!oneTimeHighRiskAllocationCovered.apply(portfolio)) {
-                    BigDecimal remainingHighRiskFund = PortfolioProcessHelper.remainingHighRisk.apply(portfolio);
+                    BigDecimal remainingHighRiskFund = FundDistributionUtil.remainingHighRisk.apply(portfolio);
                     if (remainingHighRiskFund.compareTo(excessFund) >= 0) {
                         return FundAllocation
                             .builder()
@@ -96,7 +97,7 @@ public interface ExcessFundAllocationHelper {
                         .highRisk(excessFund)
                         .build();
                 }
-                BigDecimal remainingRetirement = PortfolioProcessHelper.remainingRetirement.apply(portfolio);
+                BigDecimal remainingRetirement = FundDistributionUtil.remainingRetirement.apply(portfolio);
                 if (remainingRetirement.compareTo(excessFund) >= 0) {
                     return FundAllocation
                         .builder()

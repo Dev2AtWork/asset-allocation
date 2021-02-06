@@ -1,12 +1,23 @@
 package com.asset.allocation.helper;
 
+import static com.asset.allocation.domain.RiskAppetiteEnum.AGGRESSIVE;
+import static com.asset.allocation.domain.RiskAppetiteEnum.BALANCED;
+import static com.asset.allocation.domain.RiskAppetiteEnum.DEFENSIVE;
+
 import com.asset.allocation.domain.Portfolio;
+import com.asset.allocation.domain.RiskAppetiteEnum;
 import java.math.BigDecimal;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-public interface PortfolioProcessHelper {
-    Function<Portfolio, Boolean> firstDeposit = (portfolio ->
+public interface FundDistributionUtil {
+
+    Function<Double, RiskAppetiteEnum> findRiskAppetiteEnum = (riskAppetite ->
+        riskAppetite <= DEFENSIVE.getHigh() ? DEFENSIVE :
+            riskAppetite <= BALANCED.getHigh() ? BALANCED : AGGRESSIVE
+    );
+
+    Function<Portfolio, Boolean>           firstDeposit         = (portfolio ->
         portfolio
             .getPortfolioSummary()
             .getRetirement()
@@ -24,15 +35,6 @@ public interface PortfolioProcessHelper {
             .getDepositPlan()
             .getOnetime()
             .getRetirement())) == 0;
-
-    BiFunction<BigDecimal, Portfolio, Boolean> ltFirstDeposit = (deposit, portfolio) -> deposit.compareTo(portfolio
-        .getDepositPlan()
-        .getOnetime()
-        .getHighRisk()
-        .add(portfolio
-            .getDepositPlan()
-            .getOnetime()
-            .getRetirement())) < 0;
 
     Function<Portfolio, Boolean> oneTimeCovered = (portfolio ->
         portfolio

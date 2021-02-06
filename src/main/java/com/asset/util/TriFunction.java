@@ -1,4 +1,4 @@
-package com.asset.allocation.helper;
+package com.asset.util;
 
 import java.util.Objects;
 import java.util.function.Function;

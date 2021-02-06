@@ -8,7 +8,7 @@ import java.math.RoundingMode;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-public interface FundAllocationHelper {
+public interface FundDistribution {
     BiFunction<Portfolio, BigDecimal, FundAllocation> defensiveFundAllocation = (portfolio, deposit) ->
     {
         if (deposit.compareTo(portfolio
