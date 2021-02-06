@@ -1,6 +1,6 @@
-#Asset Allocation Problem
+# Asset Allocation Problem
 System to allocate user funds based on the Deposit Plans chosen by the customer and automatically distributing funds based on the customer's deposits.
-##Core Idea
+## Core Idea
 Every user will have 2 plans associated with user portfolio - 
 1. High Risk Plan
 2. Retirement Plan
@@ -14,13 +14,13 @@ Each user will have a Risk Appetite associated to the profile (on a scale of 0-1
 2. Balanced
 3. Defensive
 
-###Fund Allocation Strategy
+### Fund Allocation Strategy
 * Allocate funds to each category till the one time investment goal is met.
     * The fund distribution strategy is derived by customer's Risk Appetite. (_Aggresive portfolio will prioritize achieving the high risk plan goal first, whereas Defensive portfolio will target to fulfill Retirement goal first_)
       
 All use cases are written under `/test/resources/acceptance-criteria.yml`.
 
-####Example
+#### Example
 ```yaml
 - depositPlan:
     onetime:
