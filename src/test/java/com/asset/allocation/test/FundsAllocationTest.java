@@ -18,6 +18,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 public class FundsAllocationTest {
 
     @ParameterizedTest(name = "{0}")
+    //@MethodSource("smallerDataSetProvider")
     @MethodSource("dataProvider")
     public void allocateFundTest(String description, TestData testData) {
 

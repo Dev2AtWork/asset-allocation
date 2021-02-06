@@ -54,7 +54,7 @@ public interface FundAllocationProcessor {
             if (deposit.compareTo(portfolio
                 .getDepositPlan()
                 .getMonthly()
-                .getRetirement()) == 0) {
+                .getRetirement()) <= 0) {
                 return FundAllocation
                     .builder()
                     .highRisk(BigDecimal.ZERO)
