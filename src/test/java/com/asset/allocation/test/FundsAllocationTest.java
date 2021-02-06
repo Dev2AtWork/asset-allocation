@@ -8,6 +8,7 @@ import com.asset.allocation.domain.FundAllocation;
 import com.asset.allocation.domain.Portfolio;
 import com.asset.allocation.dto.TestData;
 import java.io.File;
+import java.math.RoundingMode;
 import java.util.Objects;
 import java.util.stream.Stream;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -17,7 +18,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 public class FundsAllocationTest {
 
     @ParameterizedTest(name = "{0}")
-    @MethodSource("smallerDataSetProvider")
+    @MethodSource("dataProvider")
     public void allocateFundTest(String description, TestData testData) {
 
         final Portfolio portfolio = Portfolio
@@ -34,19 +35,23 @@ public class FundsAllocationTest {
 
         assertAll(
             () -> assertEquals(testData
-                .getFundAllocation()
-                .getHighRisk()
-                .stripTrailingZeros(), portfolio
-                .getPortfolioSummary()
-                .getHighRisk()
-                .stripTrailingZeros(), "High Risk Fund Allocation"),
+                    .getFundAllocation()
+                    .getHighRisk()
+                    .setScale(2, RoundingMode.HALF_UP)
+                , portfolio
+                    .getPortfolioSummary()
+                    .getHighRisk()
+                    .setScale(2, RoundingMode.HALF_UP)
+                , "High Risk Fund Allocation"),
             () -> assertEquals(testData
-                .getFundAllocation()
-                .getRetirement()
-                .stripTrailingZeros(), portfolio
-                .getPortfolioSummary()
-                .getRetirement()
-                .stripTrailingZeros(), "Retirement Fund Allocation")
+                    .getFundAllocation()
+                    .getRetirement()
+                    .setScale(2, RoundingMode.HALF_UP)
+                , portfolio
+                    .getPortfolioSummary()
+                    .getRetirement()
+                    .setScale(2, RoundingMode.HALF_UP)
+                , "Retirement Fund Allocation")
         );
     }
 

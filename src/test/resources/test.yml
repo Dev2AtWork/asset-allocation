@@ -6,13 +6,13 @@
       highRisk: 0
       retirement: 100
     riskAppetite: 0.2
-  description: Net sum equal, Defensive
+  description: Net Sum more, defensive
   deposits:
     - 10000
-    - 600
+    - 1000
   fundAllocation:
     highRisk: 10000
-    retirement: 600
+    retirement: 1000
 - depositPlan:
     onetime:
       highRisk: 10000
@@ -21,13 +21,13 @@
       highRisk: 0
       retirement: 100
     riskAppetite: 0.5
-  description: Net sum equal, Balanced
+  description: Net Sum more, balanced
   deposits:
     - 10000
-    - 600
+    - 1000
   fundAllocation:
-    highRisk: 10000
-    retirement: 600
+    highRisk: 10200
+    retirement: 800
 - depositPlan:
     onetime:
       highRisk: 10000
@@ -36,10 +36,10 @@
       highRisk: 0
       retirement: 100
     riskAppetite: 0.8
-  description: Net sum equal, Aggresive
+  description: Net Sum more, aggresive
   deposits:
     - 10000
-    - 600
+    - 1000
   fundAllocation:
-    highRisk: 10000
+    highRisk: 10400
     retirement: 600
