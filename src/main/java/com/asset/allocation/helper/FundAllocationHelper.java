@@ -1,10 +1,15 @@
 package com.asset.allocation.helper;
 
+import static com.asset.allocation.helper.PortfolioProcessHelper.monthlyAllocationHighRisk;
+import static com.asset.allocation.helper.PortfolioProcessHelper.monthlyAllocationRetirement;
+
 import com.asset.allocation.domain.FundAllocation;
 import com.asset.allocation.domain.Portfolio;
+import com.asset.allocation.domain.RiskAppetiteEnum;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 
 public interface FundAllocationHelper {
     BiFunction<Portfolio, BigDecimal, FundAllocation> defensiveFundAllocation = (portfolio, deposit) ->
@@ -20,8 +25,7 @@ public interface FundAllocationHelper {
                 .getRetirement())
             .build();
 
-    BiFunction<Portfolio, BigDecimal, FundAllocation> balancedFundAllocation = (portfolio, deposit) ->
-    {
+    BiFunction<Portfolio, BigDecimal, FundAllocation> balancedFundAllocation = (portfolio, deposit) -> {
         final BigDecimal highRiskAllocation = portfolio
             .getDepositPlan()
             .getOnetime()
@@ -55,4 +59,53 @@ public interface FundAllocationHelper {
                 .getOnetime()
                 .getHighRisk())
             .build();
+
+    BiFunction<BigDecimal, RiskAppetiteEnum, FundAllocation> allocateExcessFundByRisk = (remainingFund, riskAppetite) -> {
+        switch (riskAppetite) {
+            case DEFENSIVE:
+                return FundAllocation
+                    .builder()
+                    .retirement(remainingFund)
+                    .build();
+            case BALANCED:
+                return FundAllocation
+                    .builder()
+                    .retirement(remainingFund.divide(BigDecimal.valueOf(2), 2, RoundingMode.HALF_UP))
+                    .highRisk(remainingFund.divide(BigDecimal.valueOf(2), 2, RoundingMode.HALF_UP))
+                    .build();
+            case AGGRESSIVE:
+                return FundAllocation
+                    .builder()
+                    .highRisk(remainingFund)
+                    .build();
+            default:
+                throw new IllegalStateException("unknown risk category");
+        }
+    };
+
+    Function<Portfolio, Boolean> oneTimeHighRiskAllocationCovered = (portfolio ->
+        portfolio
+            .getPortfolioSummary()
+            .getHighRisk()
+            .compareTo(portfolio
+                .getDepositPlan()
+                .getOnetime()
+                .getHighRisk()) >= 0
+    );
+
+    Function<Portfolio, Boolean> oneTimeRetirementAllocationCovered = (portfolio ->
+        portfolio
+            .getPortfolioSummary()
+            .getRetirement()
+            .compareTo(portfolio
+                .getDepositPlan()
+                .getOnetime()
+                .getRetirement()) >= 0
+    );
+
+    Function<Portfolio, Boolean> oneTimeAllocationCovered = (portfolio ->
+        oneTimeHighRiskAllocationCovered.apply(portfolio) && oneTimeRetirementAllocationCovered.apply(portfolio)
+    );
+
+
 }

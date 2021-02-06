@@ -87,4 +87,13 @@ public interface PortfolioProcessHelper {
                 .add(monthlyAllocationHighRisk.apply(portfolio))
                 .add(monthlyAllocationRetirement.apply(portfolio))
         ) == 0;
+
+    BiFunction<BigDecimal, Portfolio, Boolean> remainingOneTimeAndMonthlyLtDeposit = (deposit, portfolio) -> deposit
+        .compareTo(
+            remainingHighRisk
+                .apply(portfolio)
+                .add(remainingRetirement.apply(portfolio))
+                .add(monthlyAllocationHighRisk.apply(portfolio))
+                .add(monthlyAllocationRetirement.apply(portfolio))
+        ) > 0;
 }

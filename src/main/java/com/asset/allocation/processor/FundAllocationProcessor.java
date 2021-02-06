@@ -3,18 +3,11 @@ package com.asset.allocation.processor;
 import static com.asset.allocation.domain.RiskAppetiteEnum.AGGRESSIVE;
 import static com.asset.allocation.domain.RiskAppetiteEnum.BALANCED;
 import static com.asset.allocation.domain.RiskAppetiteEnum.DEFENSIVE;
+import static com.asset.allocation.helper.ExcessFundAllocationHelper.allocateExtraFundByRiskAppetite;
 import static com.asset.allocation.helper.FundAllocationHelper.aggressiveFundAllocation;
 import static com.asset.allocation.helper.FundAllocationHelper.balancedFundAllocation;
 import static com.asset.allocation.helper.FundAllocationHelper.defensiveFundAllocation;
-import static com.asset.allocation.helper.PortfolioProcessHelper.equalsFirstDeposit;
-import static com.asset.allocation.helper.PortfolioProcessHelper.firstDeposit;
-import static com.asset.allocation.helper.PortfolioProcessHelper.ltFirstDeposit;
-import static com.asset.allocation.helper.PortfolioProcessHelper.monthlyAllocationHighRisk;
-import static com.asset.allocation.helper.PortfolioProcessHelper.monthlyAllocationRetirement;
-import static com.asset.allocation.helper.PortfolioProcessHelper.oneTimeCovered;
-import static com.asset.allocation.helper.PortfolioProcessHelper.remainingHighRisk;
-import static com.asset.allocation.helper.PortfolioProcessHelper.remainingOneTimeAndMonthlyEqualsDeposit;
-import static com.asset.allocation.helper.PortfolioProcessHelper.remainingRetirement;
+import static com.asset.allocation.helper.PortfolioProcessHelper.*;
 
 import com.asset.allocation.domain.FundAllocation;
 import com.asset.allocation.domain.Portfolio;
@@ -79,6 +72,8 @@ public interface FundAllocationProcessor {
                         .apply(portfolio)
                         .add(monthlyAllocationRetirement.apply(portfolio)))
                     .build();
+            } else if (remainingOneTimeAndMonthlyLtDeposit.apply(deposit, portfolio)) {
+                return allocateExtraFundByRiskAppetite.apply(deposit, portfolio, riskAppetiteEnum);
             }
         }
 
