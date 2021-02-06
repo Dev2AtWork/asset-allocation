@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-public interface FundDistributionUtil {
+public interface FundDistributionHelper {
 
     Function<Double, RiskAppetiteEnum> findRiskAppetiteEnum = (riskAppetite ->
         riskAppetite <= DEFENSIVE.getHigh() ? DEFENSIVE :

@@ -6,7 +6,7 @@ import static com.asset.allocation.helper.ExcessFundAllocation.allocateRemaining
 import static com.asset.allocation.helper.FundDistribution.aggressiveFundAllocation;
 import static com.asset.allocation.helper.FundDistribution.balancedFundAllocation;
 import static com.asset.allocation.helper.FundDistribution.defensiveFundAllocation;
-import static com.asset.allocation.helper.FundDistributionUtil.*;
+import static com.asset.allocation.helper.FundDistributionHelper.*;
 
 import com.asset.allocation.domain.FundAllocation;
 import com.asset.allocation.domain.Portfolio;

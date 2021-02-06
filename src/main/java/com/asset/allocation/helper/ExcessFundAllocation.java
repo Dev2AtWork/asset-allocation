@@ -4,8 +4,8 @@ import static com.asset.allocation.helper.FundDistribution.allocateExcessFundByR
 import static com.asset.allocation.helper.FundDistribution.oneTimeAllocationCovered;
 import static com.asset.allocation.helper.FundDistribution.oneTimeHighRiskAllocationCovered;
 import static com.asset.allocation.helper.FundDistribution.oneTimeRetirementAllocationCovered;
-import static com.asset.allocation.helper.FundDistributionUtil.monthlyAllocationHighRisk;
-import static com.asset.allocation.helper.FundDistributionUtil.monthlyAllocationRetirement;
+import static com.asset.allocation.helper.FundDistributionHelper.monthlyAllocationHighRisk;
+import static com.asset.allocation.helper.FundDistributionHelper.monthlyAllocationRetirement;
 
 import com.asset.allocation.domain.FundAllocation;
 import com.asset.allocation.domain.Portfolio;
@@ -24,7 +24,7 @@ public interface ExcessFundAllocation {
                         .retirement(excessFund)
                         .build();
                 }
-                BigDecimal remainingHighRisk = FundDistributionUtil.remainingHighRisk.apply(portfolio);
+                BigDecimal remainingHighRisk = FundDistributionHelper.remainingHighRisk.apply(portfolio);
                 if (remainingHighRisk.compareTo(excessFund) >= 0) {
                     return FundAllocation
                         .builder()
@@ -39,8 +39,8 @@ public interface ExcessFundAllocation {
 
             case BALANCED:
                 if (!oneTimeRetirementAllocationCovered.apply(portfolio) && !oneTimeHighRiskAllocationCovered.apply(portfolio)) {
-                    BigDecimal remainingRetirement = FundDistributionUtil.remainingRetirement.apply(portfolio);
-                    BigDecimal remainingHighRiskFund = FundDistributionUtil.remainingHighRisk.apply(portfolio);
+                    BigDecimal remainingRetirement = FundDistributionHelper.remainingRetirement.apply(portfolio);
+                    BigDecimal remainingHighRiskFund = FundDistributionHelper.remainingHighRisk.apply(portfolio);
                     if (excessFund.compareTo(remainingHighRiskFund
                         .add(remainingRetirement)) >= 0) {
                         BigDecimal fundToDistribute = excessFund.subtract(remainingHighRiskFund
@@ -72,7 +72,7 @@ public interface ExcessFundAllocation {
                         .retirement(excessFund.subtract(highRiskAllocation))
                         .build();
                 } else if (!oneTimeHighRiskAllocationCovered.apply(portfolio)) {
-                    BigDecimal remainingHighRiskFund = FundDistributionUtil.remainingHighRisk.apply(portfolio);
+                    BigDecimal remainingHighRiskFund = FundDistributionHelper.remainingHighRisk.apply(portfolio);
                     if (remainingHighRiskFund.compareTo(excessFund) >= 0) {
                         return FundAllocation
                             .builder()
@@ -97,7 +97,7 @@ public interface ExcessFundAllocation {
                         .highRisk(excessFund)
                         .build();
                 }
-                BigDecimal remainingRetirement = FundDistributionUtil.remainingRetirement.apply(portfolio);
+                BigDecimal remainingRetirement = FundDistributionHelper.remainingRetirement.apply(portfolio);
                 if (remainingRetirement.compareTo(excessFund) >= 0) {
                     return FundAllocation
                         .builder()
