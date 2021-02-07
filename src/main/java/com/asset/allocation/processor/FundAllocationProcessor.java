@@ -2,11 +2,11 @@ package com.asset.allocation.processor;
 
 import static com.asset.allocation.helper.ExcessFundAllocation.allocateExtraFundByRiskAppetite;
 import static com.asset.allocation.helper.ExcessFundAllocation.allocateMonthlyFundByRiskAppetite;
-import static com.asset.allocation.helper.ExcessFundAllocation.allocateRemainingOneTimeByRiskAppetite;
 import static com.asset.allocation.helper.FundDistribution.aggressiveFundAllocation;
 import static com.asset.allocation.helper.FundDistribution.balancedFundAllocation;
 import static com.asset.allocation.helper.FundDistribution.defensiveFundAllocation;
 import static com.asset.allocation.helper.FundDistributionHelper.*;
+import static com.asset.allocation.helper.OneTimeFundAllocation.allocateRemainingOneTimeByRiskAppetite;
 
 import com.asset.allocation.domain.FundAllocation;
 import com.asset.allocation.domain.Portfolio;

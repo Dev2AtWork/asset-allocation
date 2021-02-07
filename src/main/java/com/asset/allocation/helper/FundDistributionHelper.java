@@ -27,15 +27,6 @@ public interface FundDistributionHelper {
             .equals(BigDecimal.ZERO)
     );
 
-    BiFunction<BigDecimal, Portfolio, Boolean> equalsFirstDeposit = (deposit, portfolio) -> deposit.compareTo(portfolio
-        .getDepositPlan()
-        .getOnetime()
-        .getHighRisk()
-        .add(portfolio
-            .getDepositPlan()
-            .getOnetime()
-            .getRetirement())) == 0;
-
     Function<Portfolio, Boolean> oneTimeCovered = (portfolio ->
         portfolio
             .getPortfolioSummary()
